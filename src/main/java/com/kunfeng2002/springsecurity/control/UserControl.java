@@ -1,35 +1,33 @@
 package com.kunfeng2002.springsecurity.control;
 
-import com.kunfeng2002.springsecurity.data.AccountUser;
-import com.kunfeng2002.springsecurity.entity.User;
+import com.kunfeng2002.springsecurity.data.InforUser;
+import com.kunfeng2002.springsecurity.model.Infor;
+import com.kunfeng2002.springsecurity.model.User;
+import com.kunfeng2002.springsecurity.repo.UserRepo;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class UserControl {
 
-    private final AccountUser accountUser = new AccountUser();
+    private final InforUser inforUser = new InforUser();
+    @Autowired
+    private UserRepo userRepo;
 
-    @GetMapping("/account")
-    public List<User> getAllUser() {
-        return accountUser.getUsers();
+    @GetMapping("/information")
+    public List<Infor> getAllInfor() {
+        return inforUser.getInfors();
     }
 
     @GetMapping("/csrftoken")
     public CsrfToken getCsrfToken(HttpServletRequest request) {
         return (CsrfToken) request.getAttribute("_csrf");
-    }
-
-    @PostMapping("/accounts")
-    public User addAccount(@RequestBody User user) {
-        accountUser.getUsers().add(user);
-        return user;
     }
 }
